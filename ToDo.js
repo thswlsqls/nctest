@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {View, Text, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
 
-
 const {width, height} = Dimensions.get("window");
 
 export default class ToDo extends Component{
@@ -10,9 +9,10 @@ export default class ToDo extends Component{
         isCompleted: false
     };
     render(){
-        const {isCompleted} = this.state;
+        const {isCompleted, isEditing} = this.state;
         return (
             <View style={styles.container}>
+              <View style={styles.column}>
                 <TouchableOpacity onPress={this._toggleComplete}>
                     <View
                         style={[
@@ -21,7 +21,39 @@ export default class ToDo extends Component{
                         ]}
                     />
                 </TouchableOpacity>
-                <Text style={styles.text}>Hello I'm a To Do</Text>
+                <Text
+                    style={[
+                        styles.text,
+                        isCompleted ? styles.completedText : styles.uncompletedText
+                    ]}
+                >
+                    Hello I'm a To Do
+                </Text>
+            </View>
+
+                {isEditing ? (
+                    <View style={styles.actions}>
+                        <TouchableOpacity onPressOut={this._finishEditing}>
+                           <View style = {styles.actionContainer}>
+                               <Text style={style.actionText}>✅</Text>
+                           </View>
+                        </TouchableOpacity>
+                    </View>
+                ) : (
+                    <View style={styles.actions}>
+                        <TouchableOpacity onPressOut={this._startEditing}>
+                            <View style = {styles.actionContainer}>
+                                <Text style={style.actionText}>✏</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style = {styles.actionContainer}>
+                                <Text style={style.actionText}>❌</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                )}
+
             </View>
         );
     }
@@ -31,7 +63,17 @@ export default class ToDo extends Component{
             return {
                 isCompleted: !prevState.isCompleted
             };
-        });
+        })
+    };
+    _startEditing = () => {
+        this.setState({
+            isEditing: true
+        })
+    };
+    _finishEditing = () => {
+        this.setState({
+            isEditing: false
+        })
     };
 }
 
@@ -40,14 +82,15 @@ const styles = StyleSheet.create({
         width: width - 50,
         borderBottomColor: "#bbb",
         borderBottomWidth: StyleSheet.hairlineWidth,
-        flexDirections: "row",
-        alignItems: "center"
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space between"
     },
     circle: {
         width: 50,
         height: 50,
-        borderRadius: 25,
-        borderWidth: 20,
+        borderRadius: 15,
+        borderWidth: 5,
         marginRight: 20
     },
     completedCircle: {
@@ -60,5 +103,26 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 20,
         marginVertical: 20
+    },
+    completedText: {
+      color: "#bbb",
+      textDecorationLine: "line-through"
+    },
+    uncompeletedText: {
+      color: "red"
+    },
+    column:{
+        flexDirection: "row",
+        alignItems: "center",
+        width: widh/2,
+        justifyContent: "space-between"
+    },
+    actions:{
+        flexDirection:"row"
+    },
+    actioncontainer: {
+        marginVertical: 10,
+        marginHorizontal: 10 //근처에서도 감지할 수 있도록 마진을 줌
+
     }
 });
