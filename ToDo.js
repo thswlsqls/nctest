@@ -30,30 +30,29 @@ export default class ToDo extends Component{
                     Hello I'm a To Do
                 </Text>
             </View>
-
+            <View style = {styles.column}>
                 {isEditing ? (
                     <View style={styles.actions}>
                         <TouchableOpacity onPressOut={this._finishEditing}>
                            <View style = {styles.actionContainer}>
-                               <Text style={style.actionText}>✅</Text>
+                               <Text style={styles.actionText}>✅</Text>
                            </View>
                         </TouchableOpacity>
                     </View>
-                ) : (
+                    ) : (
                     <View style={styles.actions}>
                         <TouchableOpacity onPressOut={this._startEditing}>
                             <View style = {styles.actionContainer}>
-                                <Text style={style.actionText}>✏</Text>
+                                <Text style={styles.actionText}>✏</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <View style = {styles.actionContainer}>
-                                <Text style={style.actionText}>❌</Text>
+                                <Text style={styles.actionText}>❌</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
                 )}
-
             </View>
         );
     }
@@ -109,20 +108,21 @@ const styles = StyleSheet.create({
       textDecorationLine: "line-through"
     },
     uncompeletedText: {
-      color: "red"
+      color: "#353535"
     },
     column:{
         flexDirection: "row",
         alignItems: "center",
-        width: widh/2,
+        width: width/2,
         justifyContent: "space-between"
     },
     actions:{
         flexDirection:"row"
     },
-    actioncontainer: {
+    actionContainer: {
         marginVertical: 10,
         marginHorizontal: 10 //근처에서도 감지할 수 있도록 마진을 줌
-
     }
 });
+
+

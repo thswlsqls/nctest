@@ -36,7 +36,7 @@ export default class App extends React.Component {
     this.setState({
       newToDo: text
     });
-  }
+  };
 }
 
 const styles = StyleSheet.create({
