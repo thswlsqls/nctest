@@ -1,16 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView } from 'react-native';
+import { StyleSheet,
+         Text,
+         View,
+         StatusBar,
+         TextInput,
+         Dimensions,
+         Platform,
+         ScrollView } from "react-native";
 //Platform : shadow(ios) + elevation(android)
+import  { AppLoading } from "expo";
 import ToDo from "./ToDo";
+import uuidv1 from "uuid/v1";
 
-const {height, width} = Dimensions.get("window")
+const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
     state = {
-      newToDo: ""
+      newToDo: "",
+      loadedToDos: false,
+      toDos: {}
     };
+    componentDidMount = () => {
+      this._loadToDos();
+    }
+
   render() {
-    const { newToDo } = this.state;
+    const { newToDo, loadedToDos, toDos } = this.state;
+    consoe.log(toDos);
+    if(!loadedToDos){
+      return <AppLoading />;
+    }
     return (
         <View style={styles.container}>
           <StatusBar barStyle="light-content"/>
@@ -24,9 +43,10 @@ export default class App extends React.Component {
               placeholderTextColor={"#999"}
               returnKeyType={"done"}
               autoCorrect={false}
+              onSubmitEditing={this._addToDo}
             />
             <ScrollView contentContainerStyle={styles.toDos}>
-              <ToDo />
+              <ToDo text={"Hello I'm a To Do"} />
             </ScrollView>
           </View>
         </View>
@@ -37,13 +57,46 @@ export default class App extends React.Component {
       newToDo: text
     });
   };
+  _loadToDos = () => {
+    this.setState({
+      loadedToDos: true
+    });
+  };
+  _addToDo = () => {
+    const { newToDo } = this.state;
+    if(newToDo !== "") {
+      this.setState({
+        newToDo: ""
+      });
+      this.setState(prevSate => {
+        const ID = uuidv1();
+        const newToDoObject = {
+          [ID]: {
+            id: ID,
+            isCompleted: false,
+            text: newToDo,
+            createdAt: Date.now()
+          }
+        };
+        const newState = {
+          ...prevSate,
+          newToDo: "",
+          toDos: {
+            ...prevState.toDos,
+            ...newToDoObject
+          }
+        };
+        return { ...newState };
+      });
+    }
+  };
 }
 
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    backgroundColor: '#f23657',
-    alignItems: 'center',
+    backgroundColor: "#f23657",
+    alignItems: "center",
     //justifyContent: 'center',
   },
   title:{
