@@ -68,7 +68,7 @@ export default class App extends React.Component {
       this.setState({
         newToDo: ""
       });
-      this.setState(prevSate => {
+      this.setState(prevState => {
         const ID = uuidv1();
         const newToDoObject = {
           [ID]: {
@@ -79,7 +79,7 @@ export default class App extends React.Component {
           }
         };
         const newState = {
-          ...prevSate,
+          ...prevState,
           newToDo: "",
           toDos: {
             ...prevState.toDos,
