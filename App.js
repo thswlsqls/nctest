@@ -10,7 +10,7 @@ import { StyleSheet,
 //Platform : shadow(ios) + elevation(android)
 import  { AppLoading } from "expo";
 import ToDo from "./ToDo";
-import uuidv1 from "uuid/v1";
+import v1 from "uuid/dist/v1";
 
 const { height, width } = Dimensions.get("window");
 
@@ -22,11 +22,11 @@ export default class App extends React.Component {
     };
     componentDidMount = () => {
       this._loadToDos();
-    }
+    };
 
   render() {
     const { newToDo, loadedToDos, toDos } = this.state;
-    consoe.log(toDos);
+    console.log(toDos);
     if(!loadedToDos){
       return <AppLoading />;
     }
@@ -69,7 +69,7 @@ export default class App extends React.Component {
         newToDo: ""
       });
       this.setState(prevState => {
-        const ID = uuidv1();
+        const ID = v1();
         const newToDoObject = {
           [ID]: {
             id: ID,
