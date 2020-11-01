@@ -1,3 +1,3 @@
-# ToDo
+# ToDo_expo
 
-javascript app made with React Native providing todolist function
+javascript app made with React Native and expo providing todolist function
