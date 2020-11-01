@@ -1,3 +1,3 @@
 # ToDo
 
-ToDoapp made with React Native
+javascript app made with React Native providing todolist function
